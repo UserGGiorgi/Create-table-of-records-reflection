@@ -2,7 +2,7 @@
 
 Beginner level tasks for practicing reflection.
 
-Estimated time to complete the task - 2.5 h.
+Estimated time to complete the task - 3h.
 
 The task requires .NET 8 SDK installed.
 
