@@ -1,4 +1,4 @@
-﻿using Bogus;
+using Bogus;
 using TableOfRecords.Tests.UserProfiles;
 
 namespace TableOfRecords.Tests;
@@ -99,8 +99,8 @@ internal static class TestCasesDataSource
         .RuleFor(x => x.Income, f => f.Vehicle.Random.Decimal(100, 1000))
         .Generate(1000);
 
-    public static ICollection<ProfileShort> ProfileShortCollection => new List<ProfileShort>()
-    {
+    public static ICollection<ProfileShort> ProfileShortCollection =
+    [
         new ProfileShort() { FullName = "Kale Parker", Age = 66, Gender = 'M' },
         new ProfileShort() { FullName = "Edgar Bradtke", Age = 58, Gender = 'M' },
         new ProfileShort() { FullName = "Hugh Halvorson", Age = 21, Gender = 'F' },
@@ -111,10 +111,10 @@ internal static class TestCasesDataSource
         new ProfileShort() { FullName = "Llewellyn Considine", Age = 56, Gender = 'F' },
         new ProfileShort() { FullName = "Etha Conroy", Age = 59, Gender = 'F' },
         new ProfileShort() { FullName = "Rosalinda Koelpin", Age = 83, Gender = 'F' },
-    };
+    ];
 
-    public static ICollection<ProfileBasic> ProfileBasicCollection => new List<ProfileBasic>()
-    {
+    public static ICollection<ProfileBasic> ProfileBasicCollection =
+    [
         new ProfileBasic() { FullName = "Ali Gulgowski", Age = 40, Phone = "(841) 459-7870" },
         new ProfileBasic() { FullName = "Burley Bahringer", Age = 29, Phone = "(559) 781-2980 x7732" },
         new ProfileBasic() { FullName = "Aiden Mraz", Age = 35, Phone = "563-316-2789 x49326" },
@@ -125,10 +125,10 @@ internal static class TestCasesDataSource
         new ProfileBasic() { FullName = "Clara Collins", Age = 39, Phone = "759.567.3237 x39320" },
         new ProfileBasic() { FullName = "Rodrigo Reynolds", Age = 63, Phone = "260-740-6379 x17191" },
         new ProfileBasic() { FullName = "Josefa Welch", Age = 27, Phone = "1-483-711-3344 x95528" },
-    };
+    ];
 
-    public static ICollection<ProfileExtended> ProfileExtendedCollection => new List<ProfileExtended>()
-    {
+    public static ICollection<ProfileExtended> ProfileExtendedCollection =
+    [
         new ProfileExtended()
         {
             FullName = "Fae Jones",
@@ -210,5 +210,5 @@ internal static class TestCasesDataSource
             Email = "RebecaWolf23@yahoo.com",
             Income = 188.542113971194900m,
         },
-    };
+    ];
 }

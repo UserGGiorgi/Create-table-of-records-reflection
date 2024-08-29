@@ -1,23 +1,57 @@
-﻿namespace TableOfRecords;
+using System.Reflection;
 
-/// <summary>
-/// Presents method that write in table form to the text stream a set of elements of type T.
-/// </summary>
+namespace TableOfRecords;
+
 public static class TableOfRecordsCreator
 {
-    /// <summary>
-    /// Write in table form to the text stream a set of elements of type T (<see cref="ICollection{T}"/>),
-    /// where the state of each object of type T is described by public properties that have only build-in
-    /// type (int, char, string etc.)
-    /// </summary>
-    /// <typeparam name="T">Type selector.</typeparam>
-    /// <param name="collection">Collection of elements of type T.</param>
-    /// <param name="writer">Text stream.</param>
-    /// <exception cref="ArgumentNullException">Throw if <paramref name="collection"/> is null.</exception>
-    /// <exception cref="ArgumentNullException">Throw if <paramref name="writer"/> is null.</exception>
-    /// <exception cref="ArgumentException">Throw if <paramref name="collection"/> is empty.</exception>
     public static void WriteTable<T>(ICollection<T>? collection, TextWriter? writer)
     {
-        throw new NotImplementedException();
+        ArgumentNullException.ThrowIfNull(collection);
+        ArgumentNullException.ThrowIfNull(writer);
+        if (collection.Count == 0)
+        {
+            throw new ArgumentException("Collection cannot be empty.", nameof(collection));
+        }
+
+        var properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        if (properties.Length == 0)
+        {
+            throw new ArgumentException("Collection cannot be empty.", nameof(collection));
+        }
+
+        var headers = properties.Select(x => x.Name).ToArray();
+        var columnWidths = headers.Select(headers => headers.Length).ToArray();
+
+        foreach (var item in collection)
+        {
+            for (var i = 0; i < properties.Length; i++)
+            {
+                var value = properties[i].GetValue(item)?.ToString() ?? string.Empty;
+                if (value.Length > columnWidths[i])
+                {
+                    columnWidths[i] = value.Length;
+                }
+            }
+        }
+
+        WriteRow(writer, headers, columnWidths);
+
+        foreach (var item in collection)
+        {
+            var values = properties.Select(p => p.GetValue(item)?.ToString() ?? string.Empty).ToArray();
+            WriteRow(writer, values, columnWidths);
+        }
+    }
+
+    private static void WriteRow(TextWriter writer, string[] columns, int[] columnWidths)
+    {
+        writer.Write("| ");
+        for (int i = 0; i < columns.Length; i++)
+        {
+            writer.Write(columns[i].PadRight(columnWidths[i]));
+            writer.Write(" | ");
+        }
+
+        writer.WriteLine();
     }
 }
